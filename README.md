@@ -33,6 +33,7 @@
 ## Things to add
 - A GUI
 - An anti-save-scum feature
+- Linux support
 
 ## Credits
 
