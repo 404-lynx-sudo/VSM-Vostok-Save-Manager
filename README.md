@@ -6,6 +6,9 @@
 - DO NOT TRY TO USE THIS WHILE THE GAME IS RUNNING. I have not tested what will happen, but my assumption is nothing good.
 - This is currently only designed to work on windows. Linux support is planned, however MacOS may or may not happen.
 
+## Not on Linux/MacOS setup
+Technically there is no reason that this should not work on Linux. I only stated that it is not supported since there is no precompiled and ready to use file for Linux. If you want to use Linux before I add official support, then clone the git repo and execute "Setup_module.py". That is just what the exe on windows is doing anyway.
+
 ## How to set up
 **Note:** Python needs to be installed
 1. Go to the releases page, download the zip file, and unzip it.
