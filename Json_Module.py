@@ -20,3 +20,16 @@ def check_json():
                         "save_scum_time": "5400"}
         with open("Data.json", "w") as file:
             json.dump(default_json, file, indent=2)
+def check_jsonl():
+
+    jsonl_location = "Time.jsonl/"
+    jsonl_location_path = Path(jsonl_location)
+    
+    if jsonl_location_path.exists():
+        print("yes")
+        exit
+    else:
+    
+        default_jsonl = "0"
+        with open("Time.jsonl", "w") as file:
+            json.dump(default_jsonl, file)

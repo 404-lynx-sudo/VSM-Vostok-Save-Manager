@@ -8,8 +8,11 @@ import json
 import time
 import datetime
 import math
+from Json_Module import check_jsonl
 
 def check_time():
+
+    check_jsonl()
 
     with open("Data.json", "r") as file:
         json_data = json.load(file)
