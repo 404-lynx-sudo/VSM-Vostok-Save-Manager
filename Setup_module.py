@@ -1,6 +1,5 @@
 import json
-from Save_Module import save
-from Load_Module import load
+from Json_Module import check_json
 from pathlib import Path
 
 
@@ -9,15 +8,18 @@ def setup():
 
         data = {"game_data_dir": game_data_dir,
                 "base_path": base_path,
-                "backup_path": backup_path}
+                "backup_path": backup_path,
+                "save_scum_time": save_timer}
         with open('Data.json', 'w') as file:
             json.dump(data, file, indent=2)
+    check_json()
 
     with open("Data.json", "r") as file:
         json_data = json.load(file)
         backup_path = json_data['backup_path']
         base_path_json = json_data['base_path']
         game_data_dir_json = json_data['game_data_dir']
+        save_timer_json = json_data['save_scum_time']
 
     while True:
 
@@ -68,26 +70,19 @@ def setup():
              break
         print("Please input a proper path or option. Ensure your path does not have any qoutes or special characters")
 
+    while True:
+
+        save_timer = input("The application uses an anti-save-scum feature prevents abusing the save feature. Please input a the ammount of time you want between saves in secconds: Default: 3600 (1.5 hours): ")
+
+        if save_timer.lower() == "default":
+
+            save_timer = save_timer_json
+
+            break
+        elif isinstance(save_timer, (int, float)):
+            break
+
+        print("Input must be an integer, float (number with or without decimal) or 'default'")
+
+
     write()
-
-while True:
-
-    mode = input("What you like to do?: Load, Save, Setup, Exit: ")
-
-    if mode.lower() == "setup":
-        print("Loading setup module...")
-        setup()
-
-    elif mode.lower() == "save":
-        print ("loading save module")
-        save()
-
-    elif mode.lower() == "load":
-        print("loading load module")
-        load()
-
-    elif mode.lower() == "exit":
-        print("exiting...")
-        exit()
-    else:
-        print("Please input a proper option")

@@ -5,6 +5,28 @@ from shutil import copy
 from pathlib import Path
 import os
 import json
+import time
+
+def check_time():
+
+    with open("Data.json", "r") as file:
+        json_data = json.load(file)
+    scum_time = float(json_data['save_scum_time'])
+
+    with open("Time.jsonl", "r") as file:
+        load_time = json.load(file)
+        load_time_check = float(load_time) + scum_time
+
+    time_now = time.time()
+
+    if time_now >= load_time_check:
+        can_move = 'yes'
+        
+    else:
+        can_move = 'no'
+    return can_move
+        
+
 
 def save():
     with open("Data.json", "r") as file:
@@ -16,6 +38,16 @@ def save():
 #
     save_name = input("Please input a name: ")
 
+    if check_time() == 'no':
+        print('Last save was too recent. Please wait to save again')
+        exit
+    
+    elif check_time() == 'yes':
+        pass
+    
+    else:
+        print("ERROR: can_move not defined")
+        exit
 
     save_dir = os.path.join(base_path, save_name)
 
@@ -30,3 +62,27 @@ def save():
 
     for file_name in work_dir.rglob(f"*{suffix}"):
         copy(file_name, save_dir)
+    
+    save_time = time.time() 
+
+    with open("Time.jsonl", "w") as file:
+        json.dump(save_time, file)
+
+#with open("Time.jsonl", "w") as filee:
+#    json.dump(save_time, filee)
+
+#save_time = time.time() 
+
+#with open("Time.jsonl", "w") as filee:
+#    json.dump(save_time, filee)
+
+#with open("Time.jsonl", "r") as file:
+#    time_load = json.load(file)
+#time_check = time_load + 20
+
+#time_now = time.time()
+
+#if time_now >= time_check:
+#    print("20 secconds has passed")
+#else:
+#    print("20 secconds has not passed")
