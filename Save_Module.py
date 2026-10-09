@@ -35,19 +35,19 @@ def save():
     base_path = json_data['base_path']
     game_data_dir = json_data['game_data_dir']
 
-#
-    save_name = input("Please input a name: ")
-
     if check_time() == 'no':
         print('Last save was too recent. Please wait to save again')
-        exit
+        exit()
     
     elif check_time() == 'yes':
         pass
     
     else:
         print("ERROR: can_move not defined")
-        exit
+        exit()
+
+
+    save_name = input("Please input a name: ")
 
     save_dir = os.path.join(base_path, save_name)
 
