@@ -6,6 +6,8 @@ from pathlib import Path
 import os
 import json
 import time
+import datetime
+import math
 
 def check_time():
 
@@ -34,9 +36,21 @@ def save():
 
     base_path = json_data['base_path']
     game_data_dir = json_data['game_data_dir']
+    save_scum_time = json_data['save_scum_time']
 
     if check_time() == 'no':
-        print('Last save was too recent. Please wait to save again')
+
+        with open("Time.jsonl", "r") as time_file:
+            time_of_save = json.load(time_file)
+        save_time_add = time_of_save + float(save_scum_time)
+
+        time_now = time.time()
+
+        time_round = math.ceil(save_time_add - time_now)
+        
+        time_to_print = datetime.timedelta(seconds=time_round)
+
+        print('You have', time_to_print, "left. Please wait until saving again" )
         exit()
     
     elif check_time() == 'yes':

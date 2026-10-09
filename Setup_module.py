@@ -49,14 +49,14 @@ def setup():
 
             break
 
-        if base_path_check.exists:
+        if base_path_check.exists():
 
             break
         print("Please input a proper path or option. Ensure your path does not have any qoutes or special characters")
 
     while True:
 
-        backup_path = input ("Input the backup directory. This is used to backup your current save files before loading: Default (recomended): ")
+        backup_path = input("Input the backup directory. This is used to backup your current save files before loading: Default (recomended): ")
         backup_path_check = Path(backup_path)
 
         if backup_path.lower() == "default":
@@ -65,14 +65,14 @@ def setup():
 
             break
 
-        if backup_path_check.exists:
+        if backup_path_check.exists():
 
              break
         print("Please input a proper path or option. Ensure your path does not have any qoutes or special characters")
 
     while True:
 
-        save_timer = input("The application uses an anti-save-scum feature prevents abusing the save feature. Please input a the ammount of time you want between saves in secconds: Default: 3600 (1.5 hours): ")
+        save_timer = input("The application uses an anti-save-scum feature prevents abusing the save feature. Please input a the ammount of time you want between saves in secconds: Default: 5400 (1.5 hours): ")
 
         if save_timer.lower() == "default":
 

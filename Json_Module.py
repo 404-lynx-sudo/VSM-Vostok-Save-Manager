@@ -17,6 +17,6 @@ def check_json():
         default_json = {"game_data_dir": "null",
                         "base_path": "Saves/",
                         "backup_path": "Backup/",
-                        "save_scum_time": "3600"}
+                        "save_scum_time": "5400"}
         with open("Data.json", "w") as file:
             json.dump(default_json, file, indent=2)
