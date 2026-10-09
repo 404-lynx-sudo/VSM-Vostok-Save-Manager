@@ -16,7 +16,7 @@ def setup():
 
     with open("Data.json", "r") as file:
         json_data = json.load(file)
-        backup_path = json_data['backup_path']
+        backup_path_json = json_data['backup_path']
         base_path_json = json_data['base_path']
         game_data_dir_json = json_data['game_data_dir']
         save_timer_json = json_data['save_scum_time']
@@ -61,7 +61,7 @@ def setup():
 
         if backup_path.lower() == "default":
 
-            backup_path = base_path_json
+            backup_path = backup_path_json
 
             break
 
@@ -71,7 +71,6 @@ def setup():
         print("Please input a proper path or option. Ensure your path does not have any qoutes or special characters")
 
     while True:
-
         save_timer = input("The application uses an anti-save-scum feature prevents abusing the save feature. Please input a the ammount of time you want between saves in secconds: Default: 5400 (1.5 hours): ")
 
         if save_timer.lower() == "default":
@@ -79,10 +78,14 @@ def setup():
             save_timer = save_timer_json
 
             break
-        elif isinstance(save_timer, (int, float)):
-            break
+        else:
 
-        print("Input must be an integer, float (number with or without decimal) or 'default'")
+            try:
+                is_valid = float(save_timer)
+                break
+
+            except ValueError:
+                print("Input must be an integer, float (number with or without decimal) or 'default'")
 
 
     write()

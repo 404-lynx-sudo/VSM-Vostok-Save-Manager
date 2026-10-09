@@ -54,14 +54,14 @@ def save():
         time_to_print = datetime.timedelta(seconds=time_round)
 
         print('You have', time_to_print, "left. Please wait until saving again" )
-        exit()
+        return()
     
     elif check_time() == 'yes':
         pass
     
     else:
         print("ERROR: can_move not defined")
-        exit()
+        return()
 
 
     save_name = input("Please input a name: ")
@@ -84,22 +84,3 @@ def save():
 
     with open("Time.jsonl", "w") as file:
         json.dump(save_time, file)
-
-#with open("Time.jsonl", "w") as filee:
-#    json.dump(save_time, filee)
-
-#save_time = time.time() 
-
-#with open("Time.jsonl", "w") as filee:
-#    json.dump(save_time, filee)
-
-#with open("Time.jsonl", "r") as file:
-#    time_load = json.load(file)
-#time_check = time_load + 20
-
-#time_now = time.time()
-
-#if time_now >= time_check:
-#    print("20 secconds has passed")
-#else:
-#    print("20 secconds has not passed")
