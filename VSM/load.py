@@ -1,4 +1,5 @@
-from Backup_Module import backup
+from backup import backup
+from util import json_read as jr
 from shutil import move
 from shutil import copy
 from pathlib import Path
@@ -13,24 +14,21 @@ def load():
 
         backup()
 
-        with open("Data.json", "r") as file:
-            json_data = json.load(file)
-
-        base_path = json_data['base_path']
-        game_data_dir = json_data['game_data_dir']
+        save_path = jr()['save_path']
+        game_data_path = jr()['game_data_path']
 
 
-        save_dir = os.path.join(base_path, save_to_load)
-        save_dir_check = Path(save_dir)
+        save_name_path = os.path.join(save_path, save_to_load)
+        save_dir_check = Path(save_name_path)
 
         if save_dir_check.exists():
 
             suffix = ".tres"
 
-            work_dir = Path(save_dir) 
+            work_dir = Path(save_name_path) 
 
             for file_name in work_dir.rglob(f"*{suffix}"):
-                copy(file_name, game_data_dir)
+                copy(file_name, game_data_path)
             
             break
         print("Please input a valid save file.")

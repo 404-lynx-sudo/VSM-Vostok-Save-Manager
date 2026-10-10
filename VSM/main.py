@@ -1,6 +1,6 @@
-from Load_Module import load
-from Save_Module import save
-from Setup_module import setup
+from load import load
+from save import save
+from setup import setup
 
 def launch():
     while True:
@@ -24,3 +24,4 @@ def launch():
             exit()
         else:
             print("Please input a proper option")
+launch()
