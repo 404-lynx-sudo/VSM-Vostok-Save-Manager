@@ -1,0 +1,11 @@
+[project]
+name = 'Vostok-Save-Manager'
+version = '2.0.0'
+dependencies = ['platformdirs>=1.0.0']
+
+[build_system]
+requires = ['setuptools>=61.0']
+build_backend = 'setuptools.buil_meta'
+
+[project.scripts]
+VSM = 'VSM.main:launch'

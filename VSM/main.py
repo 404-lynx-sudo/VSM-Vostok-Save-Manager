@@ -1,6 +1,6 @@
-from load import load
-from save import save
-from setup import setup
+from VSM.load import load
+from VSM.save import save
+from VSM.setup import setup
 
 def launch():
     while True:
@@ -12,11 +12,11 @@ def launch():
             setup()
 
         elif mode.lower() == "save":
-            print ("loading save module")
+            print ("loading save module...")
             save()
 
         elif mode.lower() == "load":
-            print("loading load module")
+            print("loading load module...")
             load()
 
         elif mode.lower() == "exit":
@@ -24,4 +24,3 @@ def launch():
             exit()
         else:
             print("Please input a proper option")
-launch()

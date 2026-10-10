@@ -1,20 +1,21 @@
 import json
-from util import check_paths
-from util import json_read as jr
+from VSM.util import check_paths, json_read as jr
 from pathlib import Path
-from platformdirs import user_data_path
+from platformdirs import user_config_path
 
 def setup():
 
-
+    json_path = user_config_path('Vostok Save Manager', 'Manhattan Cafe') / 'Data.json'
     def write():
+        print('Writing to config...')
 
         data_to_write = {"game_data_path": game_data_path,
                 "save_path": save_path,
                 "backup_path": backup_path,
                 "scum_time": scum_time}
-        with open('Data.json', 'w') as file:
+        with open(json_path, 'w') as file:
             json.dump(data_to_write, file, indent=2)
+        print("Write successful! Returning to main menu...")
     check_paths()
 
     backup_path_json = jr()['backup_path']

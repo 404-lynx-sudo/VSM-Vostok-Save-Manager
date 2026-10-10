@@ -1,20 +1,19 @@
 #This takes a snapshot of the save files and saves them.
 from shutil import copy
 from pathlib import Path
-from util import json_read as jr
-from util import jsonl_read as jlr
+from VSM.util import jsonl_read as jlr, check_paths, json_read as jr
 import os
 import json
 import time
 import datetime
 import math
-from util import check_paths
+from platformdirs import user_config_path
+
+jsonl_path = user_config_path('Vostok Save Manager', 'Manhattan Cafe') / 'Time.jsonl'
 
 def check_time():
 
-    check_paths()
-
-    scum_time_value = float(jr()['save_scum_time'])
+    scum_time_value = float(jr()['scum_time'])
     last_load_time = jlr()
     till_next_load = float(last_load_time) + scum_time_value
 
@@ -31,9 +30,11 @@ def check_time():
 
 def save():
 
-    save_path = jr()['base_path']
-    game_data_path = jr()['game_data_dir']
-    scume_time_value = jr()['save_scum_time']
+    save_path = jr()['save_path']
+    game_data_path = jr()['game_data_path']
+    scume_time_value = jr()['scum_time']
+
+    print('Checking last save time...')
 
     if check_time() == 'no':
 
@@ -51,6 +52,9 @@ def save():
         return()
     
     elif check_time() == 'yes':
+
+        print('You can save!')
+        
         pass
     
     else:
@@ -59,6 +63,8 @@ def save():
 
 
     save_name = input("Please input a name: ")
+
+    print('Saving...')
 
     save_name_path = os.path.join(save_path, save_name)
 
@@ -76,5 +82,7 @@ def save():
     
     time_of_save = time.time() 
 
-    with open("Time.jsonl", "w") as file:
+    with open(jsonl_path, "w") as file:
         json.dump(time_of_save, file)
+
+    print('Succesfully saved!')

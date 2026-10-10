@@ -1,5 +1,5 @@
-from backup import backup
-from util import json_read as jr
+from VSM.backup import backup
+from VSM.util import json_read as jr
 from shutil import move
 from shutil import copy
 from pathlib import Path
@@ -7,10 +7,14 @@ import json
 from datetime import datetime
 import os
 
+saves
+
 def load():
 
     while True:
         save_to_load = input("What save would you like to load?: ")
+
+        print("Backing up current save...")
 
         backup()
 
@@ -32,3 +36,5 @@ def load():
             
             break
         print("Please input a valid save file.")
+        
+    print('Load successful! Returning to main menu...')
