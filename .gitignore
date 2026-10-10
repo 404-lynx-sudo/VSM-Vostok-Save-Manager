@@ -5,3 +5,6 @@ src
 Saves
 Backup
 Time.jsonl
+.vscode
+setup.py
+__init__.p
