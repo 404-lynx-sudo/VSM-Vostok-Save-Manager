@@ -70,6 +70,7 @@ and try again.
 
 # Things to add
 - A GUI
+- a command to list all saves while I learn how to make a GUI
 
 # Credits
 
