@@ -7,8 +7,6 @@ import json
 from datetime import datetime
 import os
 
-saves
-
 def load():
 
     while True:

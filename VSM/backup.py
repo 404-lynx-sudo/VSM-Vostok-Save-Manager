@@ -11,7 +11,6 @@ def backup():
 
     backup_path = jr()['backup_path']
     game_data_path = jr()['game_data_path']
-    print(game_data_path)
 
     backup_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
