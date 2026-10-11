@@ -1,25 +1,60 @@
-# VSM: An open source, dead simple save manager for Road To Vostok
+# VSM: An open source, dead simple save manager for Road to Vostok
 
 ## WARNINGS. Read before you use
 - I am not responsible for any lost progress and saves, I encourage you to back up your files first
 - I encourage you not to abuse this. The game is supposed to be hardcore, so only use this when you genuinely need it.
 - DO NOT TRY TO USE THIS WHILE THE GAME IS RUNNING. I have not tested what will happen, but my assumption is nothing good.
-- This is currently only designed to work on windows. Linux support is planned, however MacOS may or may not happen.
 
-## Note on Linux/MacOS setup
-Technically there is no reason that this should not work on Linux. I only stated that it is not supported since there is no precompiled and ready to use file for Linux. If you want to use Linux before I add official support, then clone the git repo and execute "Setup_module.py". That is just what the .exe on Windows does anyway. 
+## Note on macOS
+This application is a python project, is installed from pypi and automatically detects the operating system. There is no reason this should not work on mac, but I do not own a mac so I can not confirm it. 
 
-## How to set up
-**Note:** Python needs to be installed
-1. Go to the releases page, download the zip file, and unzip it.
-2. Inside is a shortcut for "RSM.EXE" open it.
-3. A terminal window should pop up with the text "What you like to do?: Load, Save, Setup, Exit:" This is the "main menu."
-4. Type "Setup" and hit enter
-5. Input the directory your game stores its data, NOT the directory you installed the game. Default for windows is "C:\Users\[Input Your User]\AppData\Roaming\Road to Vostok.
-6. You will be prompted to provide a save directory and a backup directory. This are already set by default so just type "Default"
-7. You are done with the setup.
+# Installation
 
+## Dependencies
+Requires python 3.10 (havn't verified if it works on older versions) or newer
+Requires pipx. For windows users, you can _technically_ use standard pip since windows allows you to install packages directly to global, but pipx is better and is a requirment on linux.
 
+## Linux
+
+1. Use pipx to install the package 
+```shell
+pipx install vostok-save-manager
+```
+2. You should automatically get access to the command ```VSM```. This is the command to launch the "main menu" 
+3. After you type ```VSM``` you should see in your terminal ```What you like to do?: Load, Save, Setup, Exit: ```. Type ```setup``` to continue the setup
+4. You will be asked where the game data is located. This is not the game installation folder as Road to Vostok puts its game data in a different location than its installation
+5. You will be asked where you want your saved files to be stored. The recomended is ```default``` since it automatically creates a default directory.
+6. You will be asked where you want your backuped up save  files to be stored. The recomended is ```default``` since it automatically creates a default directory.
+7. You will be asked how much time you want before you can save again. The default time is 5400 secconds, which is 1 hour and 30 minutes. You can change this to whatever you want, but it must be input as secconds and as an interger (whole number) or float (number with decimal).
+8. The setup is now done.
+
+## Windows
+
+1. Use pipx to install the package 
+```shell
+pipx install vostok-save-manager
+```
+Or since windows doesn't strictly require packages be in a virtual environment
+```shell
+pip install vostok-save-manager
+```
+But pipx is recomended
+
+2. You should automatically get access to the command ```VSM```. This is the command to launch the "main menu". If you get an error along the lines of "VSM is not recognized as command" run
+```shell
+pipx ensurepath
+```
+and try again.
+
+3. After you type ```VSM``` you should see in your terminal ```What you like to do?: Load, Save, Setup, Exit: ```. Type ```setup``` to continue the setup
+4. You will be asked where the game data is located. This is not the game installation folder as Road to Vostok puts its game data in a different location than its installation
+5. You will be asked where you want your saved files to be stored. The recomended is ```default``` since it automatically creates a default directory.
+6. You will be asked where you want your backuped up save  files to be stored. The recomended is ```default``` since it automatically creates a default directory.
+7. You will be asked how much time you want before you can save again. The default time is 5400 secconds, which is 1 hour and 30 minutes. You can change this to whatever you want, but it must be input as secconds and as an interger (whole number) or float (number with decimal).
+8. The setup is now done.
+
+# How to use
+ 
 ## How to save
 1. On the main menu type "Save."
 2. You will be prompted to name the save. This can be anything.
@@ -33,11 +68,9 @@ Technically there is no reason that this should not work on Linux. I only stated
 3. The application automatically backs up the save files currently in your game data directory.
 4. You have now loaded a save.
 
-## Things to add
+# Things to add
 - A GUI
-- An anti-save-scum feature
-- Linux support
 
-## Credits
+# Credits
 
-Purchase Road To Vostok on [Steam.](https://store.steampowered.com/app/1963610/Road_to_Vostok/)
+Purchase Road to Vostok on [Steam.](https://store.steampowered.com/app/1963610/Road_to_Vostok/)
