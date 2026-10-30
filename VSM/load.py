@@ -3,9 +3,11 @@ from VSM.util import json_read as jr
 from shutil import move
 from shutil import copy
 from pathlib import Path
+from platformdirs import user_config_path
 import json
 from datetime import datetime
 import os
+import sqlite3
 
 def load():
 
@@ -18,6 +20,14 @@ def load():
 
         save_path = jr()['save_path']
         game_data_path = jr()['game_data_path']
+        db_path = user_config_path() / 'vsm.db'
+
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT  FROM time")
+
+        rows = cursor.fetchall()
 
 
         save_name_path = os.path.join(save_path, save_to_load)

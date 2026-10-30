@@ -8,6 +8,7 @@ import time
 import datetime
 import math
 from platformdirs import user_config_path
+import sqlite3
 
 jsonl_path = user_config_path('Vostok Save Manager', 'Manhattan Cafe') / 'Time.jsonl'
 
@@ -80,9 +81,14 @@ def save():
     for tres_file in work_dir.rglob(f"*{suffix}"):
         copy(tres_file, save_name_path)
     
-    time_of_save = time.time() 
+    time_of_save = time.time()
 
-    with open(jsonl_path, "w") as file:
-        json.dump(time_of_save, file)
+    conn = sqlite3.connect("db.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "INSERT INTO time (last_save) VALUES (?)",
+        (time_of_save,)
+    )
 
     print('Succesfully saved!')

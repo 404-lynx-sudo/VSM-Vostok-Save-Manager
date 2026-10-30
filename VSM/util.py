@@ -1,12 +1,14 @@
 import json
 from pathlib import Path
 from platformdirs import user_data_path, user_config_path
+import sqlite3
 
 
 author_name = 'Manhattan Cafe'
 project_name = 'Vostok Save Manager'
 json_name = 'Data.json'
-jsonl_name = 'Time.jsonl'
+db_name= 'vsm.db'
+
 save_path_name = 'Saves'
 backup_path_name = 'Backups'
 
@@ -16,7 +18,7 @@ def check_paths():
     saves_path = data_path / Path(save_path_name)
     backup_path = data_path / Path(backup_path_name)
     json_path = config_path / Path(json_name)
-    jsonl_path =  config_path / Path(jsonl_name)
+    db_path =  config_path / Path(db_name)
 
     print("Checking default path directories...")
     if not saves_path.exists() and not backup_path.exists():
@@ -46,19 +48,33 @@ def check_paths():
             json.dump(default_json, file, indent=2)
         print('Config created succesfully!')
 
-    print('Checking if time file exists...')
-    if jsonl_path.exists():
-        print('File exists, nothing to do')
+    print('Checking if time database exists...')
+    if db_path.exists():
+        print('Database exists nothing to do')
         exit
     else:
-        print('File does not exist, Creating with defaults...')
+        print('database does not exist, Creating with defaults...')
         config_path.mkdir(parents=True, exist_ok=True)
         
-        default_jsonl = "0"
-        with open(jsonl_path, "w") as file:
-            json.dump(default_jsonl, file)
-        print('File created succesfully!')
-    print("Check finished succesfully")
+        default_lastsave = "0"
+        default_maxload = 2
+
+        conn = sqlite3.connect("vsm.db")
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS times (
+                last_save FLOAT
+                loads_left INTERGER
+            )
+        """)
+
+        cursor.execute(
+                "INSERT INTO time (last_save, loads_left) VALUES (?, ?)",
+                (default_lastsave, default_maxload, )
+            )
+
+        print('Database created succesfully')
     
 
 def json_read():
@@ -68,11 +84,3 @@ def json_read():
     with open(json_path, "r") as file:
         json_data = json.load(file)
     return json_data
-
-def jsonl_read():
-
-    jsonl_path = user_config_path(project_name, author_name) / jsonl_name
-
-    with open(jsonl_path, "r") as file:
-        jsonl_data = json.load(file)
-    return jsonl_data
