@@ -1,7 +1,6 @@
-#This takes a snapshot of the save files and saves them.
 from shutil import copy
 from pathlib import Path
-from VSM.util import jsonl_read as jlr, check_paths, json_read as jr
+from VSM.util import check_paths, json_read as jr, db_reset as dbr
 import os
 import json
 import time
@@ -10,15 +9,26 @@ import math
 from platformdirs import user_config_path
 import sqlite3
 
-jsonl_path = user_config_path('Vostok Save Manager', 'Manhattan Cafe') / 'Time.jsonl'
+
+author_name = 'Manhattan Cafe'
+project_name = 'Vostok Save Manager'
+db_path = user_config_path(project_name, author_name) / 'vsm.db'
 
 def check_time():
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT last_save FROM times")
+
+    last_save = cursor.fetchone()
 
     scum_time_value = float(jr()['scum_time'])
-    last_load_time = jlr()
-    till_next_load = float(last_load_time) + scum_time_value
+    last_save_float = float
+    till_next_load = float(last_save[0]) + scum_time_value
 
     time_now = time.time()
+
+    conn.close()
 
     if time_now >= till_next_load:
         can_move = 'yes'
@@ -26,22 +36,30 @@ def check_time():
     else:
         can_move = 'no'
     return can_move
+    
         
 
 
 def save():
 
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT last_save FROM times")
+
+    last_save = cursor.fetchone()
+
     save_path = jr()['save_path']
     game_data_path = jr()['game_data_path']
     scume_time_value = jr()['scum_time']
+
+    conn.close
 
     print('Checking last save time...')
 
     if check_time() == 'no':
 
-        time_of_save = jlr()
-
-        save_time_add = time_of_save + float(scume_time_value)
+        save_time_add = float(last_save[0]) + float(scume_time_value)
 
         time_now = time.time()
 
@@ -83,12 +101,13 @@ def save():
     
     time_of_save = time.time()
 
-    conn = sqlite3.connect("db.db")
-    cursor = conn.cursor()
-
     cursor.execute(
-        "INSERT INTO time (last_save) VALUES (?)",
+        "UPDATE times SET last_save = ?",
         (time_of_save,)
     )
+    conn.commit()
+    conn.close()
+
+    dbr()
 
     print('Succesfully saved!')

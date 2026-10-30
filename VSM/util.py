@@ -8,9 +8,9 @@ author_name = 'Manhattan Cafe'
 project_name = 'Vostok Save Manager'
 json_name = 'Data.json'
 db_name= 'vsm.db'
-
 save_path_name = 'Saves'
 backup_path_name = 'Backups'
+db_path = user_config_path(project_name, author_name) / db_name
 
 def check_paths():
     data_path = user_data_path(project_name, author_name)
@@ -43,7 +43,8 @@ def check_paths():
         default_json = {"game_data_path": "null",
                         "save_path": str(saves_path),
                         "backup_path": str(backup_path),
-                        "scum_time": "5400"}
+                        "scum_time": "5400",
+                        "load_times": "2"}
         with open(json_path, "w") as file:
             json.dump(default_json, file, indent=2)
         print('Config created succesfully!')
@@ -53,28 +54,33 @@ def check_paths():
         print('Database exists nothing to do')
         exit
     else:
-        print('database does not exist, Creating with defaults...')
+        print('Database does not exist, Creating with defaults...')
         config_path.mkdir(parents=True, exist_ok=True)
-        
+
+        db_path = config_path / 'vsm.db'
         default_lastsave = "0"
         default_maxload = 2
 
-        conn = sqlite3.connect("vsm.db")
+        conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
 
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS times (
-                last_save FLOAT
+                last_save FLOAT,
                 loads_left INTERGER
             )
         """)
 
         cursor.execute(
-                "INSERT INTO time (last_save, loads_left) VALUES (?, ?)",
+                "INSERT INTO times (last_save, loads_left) VALUES (?, ?)",
                 (default_lastsave, default_maxload, )
             )
 
+        conn.commit()
+        conn.close()
+
         print('Database created succesfully')
+
     
 
 def json_read():
@@ -84,3 +90,14 @@ def json_read():
     with open(json_path, "r") as file:
         json_data = json.load(file)
     return json_data
+
+def db_reset():
+    max_load_json = json_read()['load_times']
+
+    cursor.execute(
+        "UPDATE times SET last_save = ?",
+        (max_load_json,)
+    )
+    conn.commit()
+    conn.close()
+

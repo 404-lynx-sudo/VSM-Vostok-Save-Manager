@@ -14,35 +14,56 @@ def load():
     while True:
         save_to_load = input("What save would you like to load?: ")
 
-        print("Backing up current save...")
-
-        backup()
+        author_name = 'Manhattan Cafe'
+        project_name = 'Vostok Save Manager'
 
         save_path = jr()['save_path']
         game_data_path = jr()['game_data_path']
-        db_path = user_config_path() / 'vsm.db'
+        db_path = user_config_path(project_name, author_name) / 'vsm.db'
 
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
 
-        cursor.execute("SELECT  FROM time")
+        cursor.execute("SELECT loads_left FROM times")
 
-        rows = cursor.fetchall()
+        loads_left = cursor.fetchone()
+        conn.close
 
 
         save_name_path = os.path.join(save_path, save_to_load)
         save_dir_check = Path(save_name_path)
 
-        if save_dir_check.exists():
-
-            suffix = ".tres"
-
-            work_dir = Path(save_name_path) 
-
-            for file_name in work_dir.rglob(f"*{suffix}"):
-                copy(file_name, game_data_path)
-            
+        if sum(loads_left) <= 0:
+            print("You have used all your loads, please try again later")
             break
-        print("Please input a valid save file.")
-        
-    print('Load successful! Returning to main menu...')
+        else:
+
+            print("Backing up current save...")
+
+            backup()
+
+            if save_dir_check.exists():
+
+                suffix = ".tres"
+
+                work_dir = Path(save_name_path) 
+
+                for file_name in work_dir.rglob(f"*{suffix}"):
+                    copy(file_name, game_data_path)
+
+                    conn = sqlite3.connect(db_path)
+                    cursor = conn.cursor()
+
+                    loads_left_now = sum(loads_left) - 1
+
+                    cursor.execute(
+                        "UPDATE times SET loads_left = ?",
+                        (loads_left_now,)
+                        )
+                    conn.commit()
+                    conn.close()
+            else:
+                print("Please input a valid save file.")
+        conn.close()
+        print(f'Load successful! You have {loads_left_now} loads left. Returning to main menu...')
+        break

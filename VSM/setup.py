@@ -12,7 +12,8 @@ def setup():
         data_to_write = {"game_data_path": game_data_path,
                 "save_path": save_path,
                 "backup_path": backup_path,
-                "scum_time": scum_time}
+                "scum_time": scum_time,
+                "load_times": max_load_time}
         with open(json_path, 'w') as file:
             json.dump(data_to_write, file, indent=2)
         print("Write successful! Returning to main menu...")
@@ -22,6 +23,7 @@ def setup():
     save_path_json = jr()['save_path']
     game_data_path_json = jr()['game_data_path']
     scum_time_json = jr()['scum_time']
+    load_time_json = jr()['load_times']
 
     while True:
 
@@ -88,6 +90,24 @@ def setup():
 
             except ValueError:
                 print("Input must be an integer, float (number with or without decimal) or 'default'")
+
+    while True:
+
+        max_load_time = input("The application uses an anti-load-scum feature prevents abusing the load feature. Please input a the ammount of times you want to be able to load in between saves: Default: 2: ")
+
+        if max_load_time.lower() == "default":
+
+            max_load_time = load_time_json
+
+            break
+        else:
+
+            try:
+                is_valid = int(max_load_time)
+                break
+
+            except ValueError:
+                print("Input must be an integer (number without decimal) or 'default'")
 
 
     write()
