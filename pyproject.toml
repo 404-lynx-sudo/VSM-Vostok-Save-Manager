@@ -11,4 +11,4 @@ build_backend = 'setuptools.buil_meta'
 
 [project.scripts]
 VSM = 'VSM.main:launch'
-VSM = 'V
+VSM = 'V'
