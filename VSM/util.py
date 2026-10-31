@@ -92,10 +92,13 @@ def json_read():
     return json_data
 
 def db_reset():
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
     max_load_json = json_read()['load_times']
 
     cursor.execute(
-        "UPDATE times SET last_save = ?",
+        "UPDATE times SET loads_left = ?",
         (max_load_json,)
     )
     conn.commit()

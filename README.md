@@ -51,7 +51,8 @@ and try again.
 5. You will be asked where you want your saved files to be stored. The recomended is ```default``` since it automatically creates a default directory.
 6. You will be asked where you want your backuped up save  files to be stored. The recomended is ```default``` since it automatically creates a default directory.
 7. You will be asked how much time you want before you can save again. The default time is 5400 secconds, which is 1 hour and 30 minutes. You can change this to whatever you want, but it must be input as secconds and as an interger (whole number) or float (number with decimal).
-8. The setup is now done.
+8. You will be asked how many times you want the ability to load between saves. The default is 2, meaning you get to save a max of twice in 1 hour and 30 minutes (or whatever you set step 7). This mist be an inter (whole number) and can NOT be a float(number with decimal).
+9. The setup is now done.
 
 # How to use
  

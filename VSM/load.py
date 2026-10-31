@@ -12,13 +12,10 @@ import sqlite3
 def load():
 
     while True:
-        save_to_load = input("What save would you like to load?: ")
 
         author_name = 'Manhattan Cafe'
         project_name = 'Vostok Save Manager'
 
-        save_path = jr()['save_path']
-        game_data_path = jr()['game_data_path']
         db_path = user_config_path(project_name, author_name) / 'vsm.db'
 
         conn = sqlite3.connect(db_path)
@@ -28,21 +25,27 @@ def load():
 
         loads_left = cursor.fetchone()
         conn.close
-
-
-        save_name_path = os.path.join(save_path, save_to_load)
-        save_dir_check = Path(save_name_path)
+        
 
         if sum(loads_left) <= 0:
             print("You have used all your loads, please try again later")
             break
         else:
 
-            print("Backing up current save...")
+            save_to_load = input("What save would you like to load?: ")
+            save_path = jr()['save_path']
+            game_data_path = jr()['game_data_path']
 
-            backup()
+            save_name_path = os.path.join(save_path, save_to_load)
+            save_dir_check = Path(save_name_path)
+
+
 
             if save_dir_check.exists():
+            
+                print("Backing up current save...")
+
+                backup()
 
                 suffix = ".tres"
 
