@@ -1,5 +1,5 @@
 import json
-from VSM.util import check_paths, json_read as jr
+from VSM.util import check_paths, json_read as jr, ansi
 from pathlib import Path
 from platformdirs import user_config_path
 
@@ -7,7 +7,7 @@ def setup():
 
     json_path = user_config_path('Vostok Save Manager', 'Manhattan Cafe') / 'Data.json'
     def write():
-        print('Writing to config...')
+        print(f'{ansi["loading"]}Writing to config...{ansi["end"]}')
 
         data_to_write = {"game_data_path": game_data_path,
                 "save_path": save_path,
@@ -16,7 +16,7 @@ def setup():
                 "load_times": max_load_time}
         with open(json_path, 'w') as file:
             json.dump(data_to_write, file, indent=2)
-        print("Write successful! Returning to main menu...")
+        print(f'{ansi["loading"]}Write successful! Returning to main menu...{ansi["end"]}')
     check_paths()
 
     backup_path_json = jr()['backup_path']
@@ -27,7 +27,7 @@ def setup():
 
     while True:
 
-        game_data_path = input("Input the directory your save files are in. If you already did this type 'No': ")
+        game_data_path = input(f'{ansi["input"]}Input the directory your save files are in. If you already did this type "No": {ansi["end"]}')
         game_data_path_check = Path(game_data_path)
 
         if game_data_path.lower() == "no":
@@ -40,11 +40,11 @@ def setup():
 
             break
 
-        print("Please input a proper path or option. Ensure your path does not have any qoutes or special characters")
+        print(f'{ansi["error"]}Please input a proper path or option. Ensure your path does not have any qoutes or special characters{ansi["end"]}')
 
     while True:
 
-        save_path = input("Input the directory you want the files to be saved in: Default (recomended): ")
+        save_path = input(f'{ansi["input"]}Input the directory you want the files to be saved in: Default (recomended): {ansi["end"]}')
         save_path_check = Path(save_path)
 
         if save_path.lower() == "default":
@@ -56,11 +56,11 @@ def setup():
         if save_path_check.exists():
 
             break
-        print("Please input a proper path or option. Ensure your path does not have any qoutes or special characters")
+        print(f'{ansi["error"]}Please input a proper path or option. Ensure your path does not have any qoutes or special characters{ansi["end"]}')
 
     while True:
 
-        backup_path = input("Input the backup directory. This is used to backup your current save files before loading: Default (recomended): ")
+        backup_path = input(f'{ansi["input"]}Input the backup directory. This is used to backup your current save files before loading: Default (recomended): {ansi["end"]}')
         backup_path_check = Path(backup_path)
 
         if backup_path.lower() == "default":
@@ -72,10 +72,10 @@ def setup():
         if backup_path_check.exists():
 
              break
-        print("Please input a proper path or option. Ensure your path does not have any qoutes or special characters")
+        print(f'{ansi["error"]}Please input a proper path or option. Ensure your path does not have any qoutes or special characters{ansi["end"]}')
 
     while True:
-        scum_time = input("The application uses an anti-save-scum feature prevents abusing the save feature. Please input a the ammount of time you want between saves in secconds: Default: 5400 (1.5 hours): ")
+        scum_time = input(f'{ansi["input"]}The application uses an anti-save-scum feature prevents abusing the save feature. Please input a the ammount of time you want between saves in secconds: Default: 5400 (1.5 hours): {ansi["end"]}')
 
         if scum_time.lower() == "default":
 
@@ -89,11 +89,11 @@ def setup():
                 break
 
             except ValueError:
-                print("Input must be an integer, float (number with or without decimal) or 'default'")
+                print(f'{ansi["error"]}Input must be an integer, float (number with or without decimal) or "default"{ansi["end"]}')
 
     while True:
 
-        max_load_time = input("The application uses an anti-load-scum feature prevents abusing the load feature. Please input a the ammount of times you want to be able to load in between saves: Default: 2: ")
+        max_load_time = input(f'{ansi["input"]}The application uses an anti-load-scum feature prevents abusing the load feature. Please input a the ammount of times you want to be able to load in between saves: Default: 2: {ansi["end"]}')
 
         if max_load_time.lower() == "default":
 
@@ -107,7 +107,7 @@ def setup():
                 break
 
             except ValueError:
-                print("Input must be an integer (number without decimal) or 'default'")
+                print(f'{ansi["error"]}Input must be an integer (number without decimal) or "default"{ansi["end"]}')
 
 
     write()

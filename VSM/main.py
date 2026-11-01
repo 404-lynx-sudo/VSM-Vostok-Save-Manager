@@ -10,24 +10,24 @@ def launch():
         mode = input(f"{ansi['input']}What would you like to do?: Load, Save, Setup, Exit: {ansi['end']}")
 
         if mode.lower() == "setup":
-            print("Loading setup module...")
+            print(f'{ansi["loading"]}Loading setup module...{ansi["end"]}')
             setup()
 
         elif mode.lower() == "save":
-            print ("loading save module...")
+            print(f'{ansi["loading"]}loading save module...{ansi["end"]}')
             save()
 
         elif mode.lower() == "load":
-            print("loading load module...")
+            print(f'{ansi["loading"]}loading load module...{ansi["end"]}')
             load()
 
         elif mode.lower() == "dev":
-            print("Entering dev terminal")
+            print(f'{ansi["loading"]}Entering dev terminal{ansi["end"]}')
             dev()
 
         elif mode.lower() == "exit":
-            print("exiting...")
+            print(f'{ansi["loading"]}exiting...{ansi["end"]}')
             exit()
 
         else:
-            print("Please input a proper option")
+            print(f'{ansi["error"]}Please input a proper option{ansi["end"]}')

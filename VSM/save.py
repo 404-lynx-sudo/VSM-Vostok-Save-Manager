@@ -1,6 +1,6 @@
 from shutil import copy
 from pathlib import Path
-from VSM.util import check_paths, json_read as jr, db_reset as dbr
+from VSM.util import check_paths, json_read as jr, db_reset as dbr, ansi
 import os
 import json
 import time
@@ -55,7 +55,7 @@ def save():
 
     conn.close
 
-    print('Checking last save time...')
+    print(f'{ansi["loading"]}Checking last save time...{ansi["end"]}')
 
     if check_time() == 'no':
 
@@ -67,23 +67,23 @@ def save():
         
         readable_time = datetime.timedelta(seconds=till_next_load)
 
-        print('You have', readable_time, "left. Please wait until saving again" )
+        print(f'{ansi["info"]}You have {readable_time} left. Please wait until saving again{ansi["end"]}')
         return()
     
     elif check_time() == 'yes':
 
-        print('You can save!')
+        print(f'{ansi["info"]}You can save!{ansi["end"]}')
         
         pass
     
     else:
-        print("ERROR: can_move not defined")
+        print(f'{ansi["error"]}ERROR: can_move not defined{ansi["end"]}')
         return()
 
 
-    save_name = input("Please input a name: ")
+    save_name = input(f'{ansi["input"]}Please input a name: {ansi["end"]}')
 
-    print('Saving...')
+    print(f'{ansi["loading"]}Saving...{ansi["end"]}')
 
     save_name_path = os.path.join(save_path, save_name)
 
@@ -110,4 +110,4 @@ def save():
 
     dbr()
 
-    print('Succesfully saved!')
+    print(f'{ansi["good"]}Succesfully saved!{ansi["end"]}')

@@ -11,35 +11,31 @@ import sqlite3
 
 def load():
 
-    while True:
+    author_name = 'Manhattan Cafe'
+    project_name = 'Vostok Save Manager'
 
-        author_name = 'Manhattan Cafe'
-        project_name = 'Vostok Save Manager'
+    db_path = user_config_path(project_name, author_name) / 'vsm.db'
 
-        db_path = user_config_path(project_name, author_name) / 'vsm.db'
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
 
-        conn = sqlite3.connect(db_path)
-        cursor = conn.cursor()
+    cursor.execute("SELECT loads_left FROM times")
 
-        cursor.execute("SELECT loads_left FROM times")
+    loads_left = cursor.fetchone()
+    conn.close
 
-        loads_left = cursor.fetchone()
-        conn.close
-        
+    if sum(loads_left) <= 0:
+        print(f'{ansi["info"]}You have used all your loads, please try again later{ansi["end"]}')
+        return
+    else:
 
-        if sum(loads_left) <= 0:
-            print(f'{ansi["info"]}You have used all your loads, please try again later{ansi["end"]}')
-            break
-        else:
-
+        while True:
             save_to_load = input(f"{ansi['input']}What save would you like to load?: {ansi['end']}")
             save_path = jr()['save_path']
             game_data_path = jr()['game_data_path']
 
             save_name_path = os.path.join(save_path, save_to_load)
             save_dir_check = Path(save_name_path)
-
-
 
             if save_dir_check.exists():
             
@@ -65,8 +61,7 @@ def load():
                         )
                     conn.commit()
                     conn.close()
+                    print(f'{ansi["loading"]}Load successful! You have {loads_left_now} loads left. Returning to main menu...{ansi["end"]}')
+                    return
             else:
                 print(f'{ansi["error"]}Please input a valid save file.{ansi["end"]}')
-        conn.close()
-        print(f'{ansi["loading"]}Load successful! You have {loads_left_now} loads left. Returning to main menu...{ansi["end"]}')
-        break

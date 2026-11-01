@@ -41,7 +41,7 @@ def json_print():
         json_data = jr()
     except FileNotFoundError:
         print(f'{ansi["error"]}Json does not exist{ansi["end"]}')
-        exit()
+        return
 
     while True:
         field = input(f'{ansi["input"]}What field?: {ansi["end"]}')
@@ -63,15 +63,21 @@ def json_print():
         else:
             print(f'{ansi["error"]}field does not exist{ansi["end"]}')
 def sql_print():
-    conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
+    try:
 
-    cursor.execute("SELECT * FROM times")
-    sql = cursor.fetchall()
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
 
-    for data in sql:
-        sql_print = data
-        print(sql_print)
+        cursor.execute("SELECT * FROM times")
+        sql = cursor.fetchall()
+
+        conn.close
+
+        for data in sql:
+            sql_print = data
+            print(sql_print)
+    except sqlite3.OperationalError:
+        print(f'{ansi["error"]}Database file does not exist or is unable to be read from{ansi["end"]}')
 
 
 
