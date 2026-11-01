@@ -1,6 +1,6 @@
 from shutil import copy
 from pathlib import Path
-from VSM.util import json_read as jr
+from VSM.util import json_read as jr, ansi
 import os
 from datetime import datetime
 import json
@@ -26,4 +26,4 @@ def backup():
 
     for file_name in work_dir.rglob(f"*{suffix}"):
         copy(file_name, backup_path)
-    print('Backup successful!')
+    print(f'{ansi["good"]}Backup successful!{ansi["end"]}')

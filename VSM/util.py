@@ -11,6 +11,12 @@ db_name= 'vsm.db'
 save_path_name = 'Saves'
 backup_path_name = 'Backups'
 db_path = user_config_path(project_name, author_name) / db_name
+ansi = {"error": '\033[91m',
+        "input": '\033[96m',
+        "loading": '\033[35m',
+        "info": '\033[93m',
+        "end": '\033[0m',
+        "good": '\033[92m'}
 
 def check_paths():
     data_path = user_data_path(project_name, author_name)
@@ -20,23 +26,24 @@ def check_paths():
     json_path = config_path / Path(json_name)
     db_path =  config_path / Path(db_name)
 
-    print("Checking default path directories...")
+    print(f'{ansi["loading"]}Checking default path directories...{ansi["end"]}')
+
     if not saves_path.exists() and not backup_path.exists():
-        print('Directoris do not exist. Creating...')
+        print(f'{ansi["loading"]}Directoris do not exist. Creating...{ansi["end"]}')
 
         saves_path.mkdir(parents=True, exist_ok=True)
         backup_path.mkdir(parents=True, exist_ok=True)
-        print("Directories created successfully!")
+        print(f"{ansi["good"]}Directories created successfully!{ansi["end"]}")
     else:
-        print('Directories already exist, nothing to do')
+        print(f'{ansi["good"]}Directories already exist, nothing to do{ansi["end"]}')
         pass
 
-    print('Checking if config exists...')
+    print(f'{ansi["loading"]}Checking if config exists...{ansi["end"]}')
     if json_path.exists():
-        print('Config already exists, nothing to do')
+        print(f'{ansi["good"]}Config already exists, nothing to do{ansi["end"]}')
         pass
     else:
-        print('Config does not exist. Creating with defaults...')
+        print(f'{ansi["loading"]}Config does not exist. Creating with defaults...{ansi["end"]}')
         
         config_path.mkdir(parents=True, exist_ok=True)
         
@@ -47,14 +54,14 @@ def check_paths():
                         "load_times": "2"}
         with open(json_path, "w") as file:
             json.dump(default_json, file, indent=2)
-        print('Config created succesfully!')
+        print(f'{ansi["good"]}Config created succesfully!{ansi["end"]}')
 
-    print('Checking if time database exists...')
+    print(f'{ansi["loading"]}Checking if time database exists...{ansi["end"]}')
     if db_path.exists():
-        print('Database exists nothing to do')
+        print(f'{ansi["good"]}Database exists nothing to do{ansi["end"]}')
         exit
     else:
-        print('Database does not exist, Creating with defaults...')
+        print(f'{ansi["loading"]}Database does not exist, Creating with defaults...{ansi["end"]}')
         config_path.mkdir(parents=True, exist_ok=True)
 
         db_path = config_path / 'vsm.db'
@@ -79,7 +86,7 @@ def check_paths():
         conn.commit()
         conn.close()
 
-        print('Database created succesfully')
+        print(f'{ansi["good"]}Database created succesfully{ansi["end"]}')
 
     
 
@@ -103,4 +110,3 @@ def db_reset():
     )
     conn.commit()
     conn.close()
-

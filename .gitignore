@@ -9,3 +9,4 @@ Time.jsonl
 .venv
 Vostok_Save_Manager.egg-info
 vsm-venv
+test.py

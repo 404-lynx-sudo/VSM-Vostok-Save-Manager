@@ -1,9 +1,8 @@
 from pathlib import Path
-from VSM.util import json_read as jr
+from VSM.util import json_read as jr, ansi
 import shutil
 from platformdirs import user_config_path, user_data_path
 import sqlite3
-
 author_name = 'Manhattan Cafe'
 project_name = 'Vostok Save Manager'
 config_path = user_config_path(project_name, author_name)
@@ -14,37 +13,38 @@ def reset():
     try:
         shutil.rmtree(config_path)
     except FileNotFoundError:
-        print("Config path does not exist, skipping...")
+        print(f'{ansi["loading"]}Config path does not exist, skipping...{ansi["end"]}')
     try:
         shutil.rmtree(data_path)
     except FileNotFoundError:
-        print("Data path does not exist, skipping...")
+        print(f'{ansi["loading"]}Data path does not exist, skipping...{ansi["end"]}')
 
-    print("Reset succesful")
+    print(f'{ansi["good"]}Reset succesful{ansi["end"]}')
 
 def list_data():
     try:
         for ls in data_path.iterdir():
             print(ls)
     except FileNotFoundError:
-        print("Directory does not exist")
+        print(f'{ansi["error"]}Directory does not exist{ansi["end"]}')
 
 def list_config():
     try:
         for ls in config_path.iterdir():
             print(ls)
     except FileNotFoundError:
-        print("Directory does not exist")
+        print(f'{ansi["error"]}Directory does not exist{ansi["end"]}')
 
 def json_print():
 
     try:
         json_data = jr()
     except FileNotFoundError:
-        print("Json does not exist")
+        print(f'{ansi["error"]}Json does not exist{ansi["end"]}')
+        exit()
 
     while True:
-        field = input("What field?: ")
+        field = input(f'{ansi["input"]}What field?: {ansi["end"]}')
 
         if field == "all":
             print(json_data)
@@ -61,7 +61,7 @@ def json_print():
         elif field == "exit":
             break
         else:
-            print("field does not exist")
+            print(f'{ansi["error"]}field does not exist{ansi["end"]}')
 def sql_print():
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
@@ -77,7 +77,7 @@ def sql_print():
 
 def dev():
     while True:
-        mode = input("Input Dev Option: ")
+        mode = input(f'{ansi["input"]}Input Dev Option: {ansi["end"]}')
 
         if mode.lower() == 'reset':
             reset()
@@ -93,7 +93,7 @@ def dev():
         elif mode.lower() == 'sqlr':
             sql_print()
         elif mode.lower() == 'exit':
-            print("Exiting...")
+            print(f'{ansi["loading"]}Exiting...{ansi["end"]}')
             break
         else:
-            print("Input a valid option")
+            print(f'{ansi["error"]}Input a valid option{ansi["end"]}')

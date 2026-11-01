@@ -2,11 +2,12 @@ from VSM.load import load
 from VSM.save import save
 from VSM.setup import setup
 from VSM.dev import dev
+from VSM.util import ansi
 
 def launch():
     while True:
 
-        mode = input("What would you like to do?: Load, Save, Setup, Exit: ")
+        mode = input(f"{ansi['input']}What would you like to do?: Load, Save, Setup, Exit: {ansi['end']}")
 
         if mode.lower() == "setup":
             print("Loading setup module...")
